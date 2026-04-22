@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LeadLeap — Capture Leads, Follow Up Smart, Close More</title>
+<meta name="description" content="Paste one script on your website — leads collect automatically. Send emails via your own SMTP, track opens, and automate follow-ups."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#059669;--green-light:#10b981;--green-bg:#ecfdf5;--green-border:#a7f3d0;
+  --indigo:#6366f1;--indigo-bg:#eef2ff;--indigo-border:#c7d2fe;
+  --zinc-900:#0f172a;--zinc-700:#374151;--zinc-500:#6b7280;--zinc-400:#9ca3af;
+  --zinc-200:#e5e7eb;--zinc-100:#f3f4f6;--zinc-50:#f9fafb;
+  --red:#ef4444;--amber:#f59e0b;--pink:#ec4899;
+  --max-w:1200px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--zinc-700);background:#fff;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  height:64px;
+}
+.nav-inner{
+  max-width:var(--max-w);margin:0 auto;
+  padding:0 32px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo-icon{width:28px;height:28px;background:var(--zinc-900);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-logo-text{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.2rem;color:var(--zinc-900)}
+.nav-logo-text span{color:var(--indigo)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--zinc-500);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--zinc-900)}
+.btn-nav{padding:9px 20px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;border:none;white-space:nowrap}
+.btn-nav-solid{background:var(--zinc-900);color:#fff;box-shadow:0 2px 8px rgba(15,23,42,.15)}
+.btn-nav-solid:hover{background:#1e293b;transform:translateY(-1px)}
+
+/* CONTAINER */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:var(--zinc-900);color:#fff;font-family:'DM Sans',sans-serif;font-size:.925rem;font-weight:600;border:none;border-radius:12px;cursor:pointer;text-decoration:none;box-shadow:0 4px 16px rgba(15,23,42,.16);transition:all .2s}
+.btn-primary:hover{background:#1e293b;transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,23,42,.2)}
+.btn-secondary{display:inline-flex;align-items:center;gap:7px;padding:14px 24px;background:transparent;color:var(--zinc-500);font-family:'DM Sans',sans-serif;font-size:.925rem;font-weight:500;border:1.5px solid var(--zinc-200);border-radius:12px;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-secondary:hover{border-color:#d1d5db;background:var(--zinc-50);transform:translateY(-2px)}
+.btn-green{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:.925rem;font-weight:600;border:none;border-radius:12px;cursor:pointer;text-decoration:none;box-shadow:0 4px 16px rgba(5,150,105,.25);transition:all .2s}
+.btn-green:hover{background:#047857;transform:translateY(-2px);box-shadow:0 8px 24px rgba(5,150,105,.3)}
+
+/* BADGE */
+.sec-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:99px;font-size:.75rem;font-weight:600;letter-spacing:.03em}
+.badge-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--green)}
+.badge-indigo{background:var(--indigo-bg);border:1px solid var(--indigo-border);color:var(--indigo)}
+.badge-red{background:#fff1f2;border:1px solid #fee2e2;color:var(--red)}
+.badge-amber{background:#fffbeb;border:1px solid #fde68a;color:var(--amber)}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green-light);box-shadow:0 0 0 3px rgba(16,185,129,.2);animation:pdot 2s infinite;flex-shrink:0}
+@keyframes pdot{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,.2)}50%{box-shadow:0 0 0 6px rgba(16,185,129,.07)}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.a1{animation:fadeUp .55s .00s cubic-bezier(.16,1,.3,1) both}
+.a2{animation:fadeUp .55s .08s cubic-bezier(.16,1,.3,1) both}
+.a3{animation:fadeUp .55s .16s cubic-bezier(.16,1,.3,1) both}
+.a4{animation:fadeUp .55s .24s cubic-bezier(.16,1,.3,1) both}
+.a5{animation:fadeUp .55s .32s cubic-bezier(.16,1,.3,1) both}
+.a6{animation:fadeUp .55s .40s cubic-bezier(.16,1,.3,1) both}
+
+/* SECTION COMMON */
+.section-center{text-align:center;margin-bottom:56px}
+.section-center h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2rem,4vw,2.9rem);font-weight:800;color:var(--zinc-900);line-height:1.1;margin:16px 0 12px}
+.section-center p{color:var(--zinc-500);font-size:1rem;max-width:500px;margin:0 auto;line-height:1.7}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 24px 80px;text-align:center;background:#fff;background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(16,185,129,.07) 0%,transparent 65%)}
+.hero-inner{max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:28px}
+.hero h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;color:var(--zinc-900);line-height:1.08;letter-spacing:-.02em}
+.hero-grad{background:linear-gradient(135deg,#059669 0%,#6366f1 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--zinc-500);font-size:1.05rem;line-height:1.7;max-width:520px}
+.hero-btns{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px}
+.trust-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--zinc-400)}
+
+/* MOCKUP */
+.hero-mockup{margin-top:16px;width:100%;max-width:860px;background:#fff;border:1.5px solid var(--zinc-200);border-radius:20px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.04)}
+.mockup-bar{background:var(--zinc-50);border-bottom:1px solid var(--zinc-200);padding:12px 16px;display:flex;align-items:center;gap:8px}
+.mockup-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.mockup-url{flex:1;background:#fff;border:1px solid var(--zinc-200);border-radius:6px;padding:4px 12px;font-size:.72rem;color:var(--zinc-400);text-align:center}
+.mockup-body{padding:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat-card{background:var(--zinc-50);border:1px solid var(--zinc-100);border-radius:12px;padding:14px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+.stat-card.s1::before{background:linear-gradient(90deg,#6366f1,#818cf8)}
+.stat-card.s2::before{background:linear-gradient(90deg,#10b981,#34d399)}
+.stat-card.s3::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.stat-card.s4::before{background:linear-gradient(90deg,#ec4899,#f472b6)}
+.stat-label{font-size:.68rem;color:var(--zinc-400);margin-bottom:4px}
+.stat-num{font-family:'Bricolage Grotesque',sans-serif;font-size:1.5rem;font-weight:800;color:var(--zinc-900)}
+.stat-trend{font-size:.65rem;color:var(--green);margin-top:3px}
+.mockup-leads{grid-column:1/-1;background:var(--zinc-50);border:1px solid var(--zinc-100);border-radius:12px;padding:14px}
+.leads-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.leads-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.82rem;color:var(--zinc-900)}
+.lead-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--zinc-200)}
+.lead-row:last-child{border-bottom:none}
+.lead-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
+.lead-name{font-size:.75rem;font-weight:600;color:var(--zinc-900)}
+.lead-email{font-size:.68rem;color:var(--zinc-400)}
+.lead-status{margin-left:auto;font-size:.62rem;font-weight:600;padding:2px 7px;border-radius:20px;white-space:nowrap}
+.status-new{background:var(--indigo-bg);color:var(--indigo)}
+.status-hot{background:var(--green-bg);color:var(--green)}
+.status-warm{background:#fffbeb;color:var(--amber)}
+.lead-score{font-size:.7rem;font-weight:700;color:var(--zinc-400);min-width:28px;text-align:right}
+
+/* TICKER */
+.ticker-wrap{background:var(--zinc-50);border-top:1px solid var(--zinc-100);border-bottom:1px solid var(--zinc-100);padding:14px 0;overflow:hidden}
+.ticker-track{display:flex;gap:48px;animation:ticker 22s linear infinite;width:max-content}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--zinc-500);white-space:nowrap;font-weight:500}
+
+/* PROBLEM */
+.problem{padding:96px 24px;background:#f8fafc;background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(239,68,68,.05) 0%,transparent 60%)}
+.prob-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.prob-card{background:#fff;border:1.5px solid #fee2e2;border-radius:16px;padding:24px;display:flex;align-items:flex-start;gap:16px;cursor:default;transition:transform .25s,box-shadow .25s,border-color .25s}
+.prob-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(239,68,68,.1);border-color:#fca5a5}
+.prob-icon{width:40px;height:40px;border-radius:12px;background:#fff1f2;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+.prob-card h3{font-size:.9rem;font-weight:600;color:var(--zinc-900);margin-bottom:4px}
+.prob-card p{font-size:.82rem;color:var(--zinc-500);line-height:1.6}
+.prob-x{width:24px;height:24px;border-radius:50%;background:#fff1f2;border:1px solid #fee2e2;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto;align-self:flex-start}
+
+/* FEATURES */
+.features{padding:96px 24px;background:#fff;background-image:radial-gradient(ellipse 50% 35% at 80% 50%,rgba(99,102,241,.06) 0%,transparent 55%)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat-card{background:#fff;border:1.5px solid var(--zinc-200);border-radius:20px;padding:28px 24px;display:flex;flex-direction:column;gap:16px;cursor:default;transition:transform .25s,box-shadow .25s,border-color .25s}
+.feat-card:hover{transform:translateY(-4px)}
+.feat-card.f1:hover{border-color:var(--indigo);box-shadow:0 16px 40px rgba(99,102,241,.12)}
+.feat-card.f2:hover{border-color:var(--green-light);box-shadow:0 16px 40px rgba(16,185,129,.12)}
+.feat-card.f3:hover{border-color:var(--amber);box-shadow:0 16px 40px rgba(245,158,11,.12)}
+.feat-card.f4:hover{border-color:var(--pink);box-shadow:0 16px 40px rgba(236,72,153,.12)}
+.feat-card.f5:hover{border-color:var(--green);box-shadow:0 16px 40px rgba(5,150,105,.12)}
+.feat-card.wide{grid-column:span 3}
+.feat-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:transform .25s}
+.feat-card:hover .feat-icon{transform:scale(1.08) rotate(-3deg)}
+.feat-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;color:var(--zinc-900)}
+.feat-card p{font-size:.85rem;color:var(--zinc-500);line-height:1.65}
+.feat-stat{margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600;padding:5px 10px;border-radius:20px;width:fit-content}
+
+/* HOW IT WORKS */
+.hiw{padding:96px 24px;background:#f8fafc;background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(99,102,241,.06) 0%,transparent 55%)}
+.hiw-inner{max-width:680px;margin:0 auto;position:relative}
+.hiw-line{position:absolute;left:22px;top:46px;bottom:0;width:2px;background:linear-gradient(to bottom,#e0e7ff,#d1fae5);border-radius:2px}
+.hiw-steps{display:flex;flex-direction:column;gap:28px;position:relative}
+.hiw-row{display:flex;align-items:flex-start;gap:20px;cursor:default}
+.hiw-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-size:.8rem;font-weight:800;flex-shrink:0;position:relative;z-index:10;transition:transform .25s}
+.hiw-row:hover .hiw-num{transform:scale(1.1)}
+.hiw-card{background:#fff;border:1.5px solid var(--zinc-200);border-radius:18px;padding:22px 24px;flex:1;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative;overflow:hidden}
+.hiw-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;border-radius:18px 18px 0 0;transition:opacity .25s}
+.hiw-row:hover .hiw-card{transform:translateX(6px);box-shadow:0 10px 32px rgba(0,0,0,.08)}
+.hiw-row:hover .hiw-card::before{opacity:1}
+.step-1 .hiw-num{background:#eef2ff;color:var(--indigo);box-shadow:0 0 0 4px rgba(99,102,241,.1)}
+.step-1 .hiw-card::before{background:linear-gradient(90deg,#6366f1,#818cf8)}
+.step-1:hover .hiw-card{border-color:var(--indigo-border)}
+.step-2 .hiw-num{background:var(--green-bg);color:var(--green);box-shadow:0 0 0 4px rgba(16,185,129,.1)}
+.step-2 .hiw-card::before{background:linear-gradient(90deg,#10b981,#34d399)}
+.step-2:hover .hiw-card{border-color:var(--green-border)}
+.step-3 .hiw-num{background:#fffbeb;color:var(--amber);box-shadow:0 0 0 4px rgba(245,158,11,.1)}
+.step-3 .hiw-card::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.step-3:hover .hiw-card{border-color:#fde68a}
+.step-4 .hiw-num{background:#fdf2f8;color:var(--pink);box-shadow:0 0 0 4px rgba(236,72,153,.1)}
+.step-4 .hiw-card::before{background:linear-gradient(90deg,#ec4899,#f472b6)}
+.step-4:hover .hiw-card{border-color:#fbcfe8}
+.hiw-card-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.hiw-emoji{font-size:1.2rem}
+.hiw-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;color:var(--zinc-900)}
+.hiw-card p{font-size:.84rem;color:var(--zinc-500);line-height:1.65}
+
+/* EMBED */
+.embed-section{padding:96px 24px;background:#fff}
+.embed-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.embed-text h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:var(--zinc-900);line-height:1.1;margin:16px 0 16px}
+.embed-text p{color:var(--zinc-500);font-size:1rem;line-height:1.7;margin-bottom:24px}
+.embed-points{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.embed-point{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--zinc-700)}
+.embed-point-dot{width:20px;height:20px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.code-box{background:var(--zinc-900);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+.code-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#059669,#6366f1)}
+.code-bar{display:flex;align-items:center;gap:6px;margin-bottom:20px}
+.code-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.code-title{font-size:.72rem;color:#6b7280;margin-left:8px;font-family:monospace}
+pre{font-family:monospace;font-size:.82rem;line-height:1.7;color:#e2e8f0;white-space:pre-wrap;word-break:break-all}
+.code-comment{color:#6b7280}
+.code-tag{color:#f472b6}
+.code-attr{color:#a5b4fc}
+.code-val{color:#86efac}
+.code-result{margin-top:16px;padding:10px 14px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:10px;display:flex;align-items:center;gap:8px;font-size:.75rem;color:#86efac;font-family:monospace}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pulse 1.5s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* UPCOMING */
+.upcoming{padding:96px 24px;background:#f8fafc;background-image:radial-gradient(ellipse 60% 40% at 50% 100%,rgba(99,102,241,.06) 0%,transparent 55%)}
+.upcoming-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:900px;margin:0 auto}
+.upcoming-card{background:#fff;border:1.5px dashed var(--zinc-200);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.upcoming-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#c7d2fe,#a5b4fc);border-radius:16px 16px 0 0}
+.upcoming-pill{display:inline-flex;align-items:center;gap:5px;background:#fffbeb;border:1px solid #fde68a;color:var(--amber);font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:99px;width:fit-content}
+.upcoming-icon{width:44px;height:44px;border-radius:12px;background:var(--indigo-bg);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.upcoming-card h3{font-family:'Bricolage Grotesque',sans-serif;font-size:.95rem;font-weight:700;color:var(--zinc-900)}
+.upcoming-card p{font-size:.82rem;color:var(--zinc-500);line-height:1.6}
+
+/* PRICING */
+.pricing{padding:96px 24px;background:#fff;background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(16,185,129,.06) 0%,transparent 60%)}
+.pricing-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.p-card{background:#fff;border:1.5px solid var(--zinc-200);border-radius:20px;padding:32px 28px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+.p-card:hover{transform:translateY(-4px)}
+.p-card.free:hover{border-color:#cbd5e1;box-shadow:0 16px 40px rgba(0,0,0,.06)}
+.p-card.growth:hover{border-color:var(--indigo-border);box-shadow:0 16px 40px rgba(99,102,241,.1)}
+.p-card.premium:hover{border-color:var(--green-border);box-shadow:0 16px 40px rgba(16,185,129,.12)}
+.p-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .25s;border-radius:20px 20px 0 0}
+.p-card:hover::before{opacity:1}
+.p-card.free::before{background:linear-gradient(90deg,#94a3b8,#cbd5e1)}
+.p-card.growth::before{background:linear-gradient(90deg,var(--indigo),#818cf8)}
+.p-card.premium::before{background:linear-gradient(90deg,var(--green),#34d399)}
+.popular-tag{position:absolute;top:-1px;right:24px;background:var(--green);color:#fff;font-size:.65rem;font-weight:700;padding:4px 12px;border-radius:0 0 10px 10px;letter-spacing:.04em}
+.p-plan-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-size:.68rem;font-weight:700;margin-bottom:10px;width:fit-content}
+.p-plan-badge.free{background:var(--zinc-100);color:#64748b}
+.p-plan-badge.growth{background:var(--indigo-bg);color:var(--indigo)}
+.p-plan-badge.premium{background:var(--green-bg);color:var(--green)}
+.p-desc{font-size:.82rem;color:var(--zinc-400);margin-bottom:20px}
+.p-price{margin-bottom:24px}
+.p-price-num{font-family:'Bricolage Grotesque',sans-serif;font-size:3rem;font-weight:800;line-height:1;color:var(--zinc-900)}
+.p-price-num.green{color:var(--green)}
+.p-price-row{display:flex;align-items:flex-end;gap:4px}
+.p-price-currency{font-size:1.1rem;color:var(--zinc-400);margin-bottom:6px}
+.p-price-period{font-size:.85rem;color:var(--zinc-400);margin-bottom:6px}
+.p-price-note{font-size:.72rem;color:var(--zinc-400);margin-top:4px}
+.p-btn{display:block;text-align:center;padding:12px 0;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .2s;margin-bottom:24px}
+.p-btn.free{background:transparent;color:var(--zinc-700);border:1.5px solid var(--zinc-200)}
+.p-btn.free:hover{background:var(--zinc-50);border-color:var(--zinc-400);transform:translateY(-1px)}
+.p-btn.growth{background:var(--zinc-900);color:#fff;box-shadow:0 4px 14px rgba(15,23,42,.14)}
+.p-btn.growth:hover{background:#1e293b;transform:translateY(-1px)}
+.p-btn.premium{background:var(--green);color:#fff;box-shadow:0 4px 14px rgba(5,150,105,.25)}
+.p-btn.premium:hover{background:#047857;transform:translateY(-1px)}
+.p-divider{height:1px;background:var(--zinc-100);margin:0 0 20px}
+.p-section-label{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--zinc-400);margin-bottom:10px}
+.p-feat-row{display:flex;align-items:center;justify-content:space-between;font-size:.82rem;color:var(--zinc-500);padding:4px 0}
+.p-feat-section{margin-bottom:16px}
+.feat-yes{color:var(--green);font-weight:700}
+.feat-no{color:#cbd5e1;font-weight:700}
+.feat-chip{font-size:.68rem;font-weight:600;background:var(--zinc-100);color:#475569;padding:2px 8px;border-radius:6px}
+
+/* WAITLIST */
+.waitlist{padding:96px 24px;background:var(--zinc-900);background-image:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(16,185,129,.12) 0%,transparent 60%);text-align:center}
+.waitlist h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;line-height:1.1;margin:16px 0 14px}
+.waitlist p{color:#94a3b8;font-size:1rem;max-width:460px;margin:0 auto 36px;line-height:1.7}
+.waitlist-form-wrap{max-width:480px;margin:0 auto;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px;backdrop-filter:blur(8px)}
+.waitlist-note{margin-top:16px;font-size:.75rem;color:#475569}
+.early-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#34d399;padding:5px 14px;border-radius:99px;font-size:.75rem;font-weight:600;margin-bottom:16px}
+
+/* FOOTER */
+footer{background:#fff;border-top:1px solid var(--zinc-200);padding:48px 24px 28px}
+.footer-inner{max-width:var(--max-w);margin:0 auto}
+.footer-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;margin-bottom:32px}
+.footer-logo{display:flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:10px}
+.footer-logo-icon{width:28px;height:28px;background:var(--zinc-900);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.footer-logo-text{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.2rem;color:var(--zinc-900)}
+.footer-logo-text span{color:var(--indigo)}
+.footer-tagline{font-size:.82rem;color:var(--zinc-400);max-width:240px;line-height:1.6}
+.footer-links{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+.footer-links a{font-size:.85rem;color:var(--zinc-500);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--zinc-900)}
+.footer-bottom{padding-top:20px;border-top:1px solid var(--zinc-100);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.footer-copy{font-size:.75rem;color:var(--zinc-400)}
+
+/* MOBILE */
+@media(max-width:900px){
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .feat-card.wide{grid-column:span 2}
+  .pricing-grid{grid-template-columns:1fr}
+  .p-card.premium{order:-1}
+  .embed-inner{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .feat-grid{grid-template-columns:1fr}
+  .feat-card.wide{grid-column:span 1}
+  .mockup-body{grid-template-columns:1fr 1fr}
+  .nav-inner{padding:0 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 12L7 6l3 3 3-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="13" cy="4" r="1.5" fill="white"/></svg>
+      </div>
+      <span class="nav-logo-text">Lead<span>Leap</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#upcoming">Roadmap</a>
+    </div>
+    <a href="#waitlist" class="btn-nav btn-nav-solid">Get early access</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="a1">
+      <span class="sec-badge badge-green">
+        <span class="badge-dot"></span>
+        Coming soon — join the waitlist
+      </span>
+    </div>
+    <h1 class="a2">Capture Leads,<br/><span class="hero-grad">Follow Up Smart,</span><br/>Close More.</h1>
+    <p class="a3">Paste one script on your website — leads collect automatically. Send emails via your own server, track opens, and never let a prospect go cold.</p>
+    <div class="hero-btns a4">
+      <a href="#waitlist" class="btn-primary">
+        Join the waitlist — it's free
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#pricing" class="btn-secondary">See pricing</a>
+    </div>
+    <div class="trust-row a5">
+      <span class="trust-item"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/><path d="M4.5 7l1.8 1.8L9.5 5" stroke="#10b981" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Free plan available</span>
+      <span class="trust-item"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/><path d="M4.5 7l1.8 1.8L9.5 5" stroke="#10b981" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>No credit card required</span>
+      <span class="trust-item"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/><path d="M4.5 7l1.8 1.8L9.5 5" stroke="#10b981" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Setup in 2 minutes</span>
+    </div>
+    <div class="hero-mockup a6">
+      <div class="mockup-bar">
+        <div class="mockup-dot" style="background:#ef4444"></div>
+        <div class="mockup-dot" style="background:#f59e0b"></div>
+        <div class="mockup-dot" style="background:#10b981"></div>
+        <div class="mockup-url">app.leadleap.app/dashboard</div>
+      </div>
+      <div class="mockup-body">
+        <div class="stat-card s1"><div class="stat-label">Total Leads</div><div class="stat-num">248</div><div class="stat-trend">↑ 12% this month</div></div>
+        <div class="stat-card s2"><div class="stat-label">Closed Deals</div><div class="stat-num">31</div><div class="stat-trend">↑ 8% this month</div></div>
+        <div class="stat-card s3"><div class="stat-label">Follow-ups Due</div><div class="stat-num">14</div><div class="stat-trend">3 overdue</div></div>
+        <div class="stat-card s4"><div class="stat-label">Emails Sent</div><div class="stat-num">1.2k</div><div class="stat-trend">↑ 24% open rate</div></div>
+        <div class="mockup-leads">
+          <div class="leads-header"><span class="leads-title">Recent Leads</span><span style="font-size:.68rem;color:var(--zinc-400)">Auto-captured from website</span></div>
+          <div class="lead-row"><div class="lead-avatar" style="background:#6366f1">JD</div><div><div class="lead-name">James Davidson</div><div class="lead-email">james@startup.io</div></div><span class="lead-status status-new">New</span><span class="lead-score">82</span></div>
+          <div class="lead-row"><div class="lead-avatar" style="background:#10b981">SR</div><div><div class="lead-name">Sarah Rodriguez</div><div class="lead-email">sarah@agency.com</div></div><span class="lead-status status-hot">Interested</span><span class="lead-score">91</span></div>
+          <div class="lead-row"><div class="lead-avatar" style="background:#f59e0b">MK</div><div><div class="lead-name">Michael Kim</div><div class="lead-email">m.kim@corp.co</div></div><span class="lead-status status-warm">Contacted</span><span class="lead-score">74</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">🎯 Auto-capture leads from any website form</span>
+    <span class="ticker-item">📧 Send via your own email server — no extra fees</span>
+    <span class="ticker-item">👁️ Real-time email open tracking</span>
+    <span class="ticker-item">⚡ Automated follow-up reminders</span>
+    <span class="ticker-item">📊 Lead scoring & pipeline view</span>
+    <span class="ticker-item">🔒 Your data, your server, your control</span>
+    <span class="ticker-item">🎯 Auto-capture leads from any website form</span>
+    <span class="ticker-item">📧 Send via your own email server — no extra fees</span>
+    <span class="ticker-item">👁️ Real-time email open tracking</span>
+    <span class="ticker-item">⚡ Automated follow-up reminders</span>
+    <span class="ticker-item">📊 Lead scoring & pipeline view</span>
+    <span class="ticker-item">🔒 Your data, your server, your control</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-center">
+      <span class="sec-badge badge-red">Sound familiar?</span>
+      <h2>Still Managing Leads Manually?</h2>
+      <p>Growing businesses waste hours every week managing emails and follow-ups by hand.</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card"><div class="prob-icon">📨</div><div><h3>Manually sending follow-up emails?</h3><p>Hours wasted every day writing the same emails over and over again.</p></div><div class="prob-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round"/></svg></div></div>
+      <div class="prob-card"><div class="prob-icon">💸</div><div><h3>Losing potential leads daily?</h3><p>Promising prospects fall through the cracks with no tracking system.</p></div><div class="prob-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round"/></svg></div></div>
+      <div class="prob-card"><div class="prob-icon">👁️</div><div><h3>No visibility on email opens?</h3><p>You never know if your emails are read — or just ignored completely.</p></div><div class="prob-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round"/></svg></div></div>
+      <div class="prob-card"><div class="prob-icon">🗂️</div><div><h3>Leads scattered everywhere?</h3><p>Contacts spread across spreadsheets, notes, and inboxes with no structure.</p></div><div class="prob-x"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round"/></svg></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-center">
+      <span class="sec-badge badge-indigo">Built for growth</span>
+      <h2>Everything You Need to <span style="background:linear-gradient(135deg,#6366f1,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Close More Deals</span></h2>
+      <p>Simple, powerful tools designed to save time and increase your conversion rate.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card f1"><div class="feat-icon" style="background:#eef2ff;color:#6366f1">👥</div><div><h3>Lead Management</h3><p>Organize, track, and score every lead in one clean dashboard. Add manually or import via CSV.</p></div><span class="feat-stat" style="background:#eef2ff;color:#6366f1">↑ 3,000 leads/mo on Growth</span></div>
+      <div class="feat-card f2"><div class="feat-icon" style="background:#ecfdf5;color:#10b981">📧</div><div><h3>Your Server, Your Rules</h3><p>Send emails via your own server. No per-email fees. Works with Gmail, any provider, and more.</p></div><span class="feat-stat" style="background:#ecfdf5;color:#10b981">↑ 2,000 emails/mo on Growth</span></div>
+      <div class="feat-card f3"><div class="feat-icon" style="background:#fffbeb;color:#f59e0b">👁️</div><div><h3>Email Open Tracking</h3><p>See exactly when prospects open your emails in real time. Follow up at the perfect moment.</p></div><span class="feat-stat" style="background:#fffbeb;color:#f59e0b">↑ Know who's ready to buy</span></div>
+      <div class="feat-card f4"><div class="feat-icon" style="background:#fdf2f8;color:#ec4899">⚡</div><div><h3>Email Automation</h3><p>Set up automated email sequences. Leads get nurtured automatically while you focus on closing.</p></div><span class="feat-stat" style="background:#fdf2f8;color:#ec4899">↑ Save 8+ hours/week</span></div>
+
+      <div class="feat-card f1 wide"><div class="feat-icon" style="background:#ecfdf5;color:#059669">🎯</div><div><h3>Auto Lead Capture from Website</h3><p>Paste one script tag on your website. Every form submission — contact forms, newsletter signups, landing pages — automatically becomes a lead in your dashboard. Works on any website, any page.</p></div><span class="feat-stat" style="background:#ecfdf5;color:#059669">↑ Never miss a website visitor again</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EMBED FEATURE -->
+<section class="embed-section">
+  <div class="embed-inner">
+    <div class="embed-text">
+      <span class="sec-badge badge-green">1-line setup</span>
+      <h2>Capture Leads From Any Website Form — Automatically</h2>
+      <p>Paste one script tag on your website. Any form instantly becomes a lead capture machine. No complex integrations. No extra tools. No setup.</p>
+      <div class="embed-points">
+        <div class="embed-point"><div class="embed-point-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Works on any website — WordPress, Webflow, custom HTML</div>
+        <div class="embed-point"><div class="embed-point-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Captures name, email, phone — even before form submit</div>
+        <div class="embed-point"><div class="embed-point-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Duplicate detection — same email never captured twice</div>
+        <div class="embed-point"><div class="embed-point-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#059669" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Domain-locked — your key only works on your site</div>
+      </div>
+      <a href="#waitlist" class="btn-green">Get early access free<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="code-box">
+      <div class="code-bar"><div class="code-dot" style="background:#ef4444"></div><div class="code-dot" style="background:#f59e0b"></div><div class="code-dot" style="background:#10b981"></div><span class="code-title">index.html — paste in &lt;head&gt;</span></div>
+      <pre><span class="code-comment">&lt;!-- LeadLeap — 1 line setup --&gt;</span>
+<span class="code-tag">&lt;script</span>
+  <span class="code-attr">src</span>=<span class="code-val">"https://leadleap.app/tracker.js"</span>
+  <span class="code-attr">data-key</span>=<span class="code-val">"your_api_key_here"</span>
+<span class="code-tag">&gt;&lt;/script&gt;</span></pre>
+      <div class="code-result"><div class="pulse-dot"></div>Lead captured → james@startup.io — 2s ago</div>
+      <div class="code-result" style="margin-top:8px"><div class="pulse-dot"></div>Lead captured → sarah@agency.com — 14s ago</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="how-it-works">
+  <div class="container">
+    <div class="section-center">
+      <span class="sec-badge badge-indigo">Simple process</span>
+      <h2>Up and Running in 5 Minutes</h2>
+      <p>From signup to capturing your first lead — no technical knowledge required.</p>
+    </div>
+    <div class="hiw-inner">
+      <div class="hiw-line"></div>
+      <div class="hiw-steps">
+        <div class="hiw-row step-1"><div class="hiw-num">01</div><div class="hiw-card"><div class="hiw-card-head"><span class="hiw-emoji">🚀</span><h3>Sign Up Free</h3></div><p>Create your account in seconds. No credit card. Access your dashboard immediately.</p></div></div>
+        <div class="hiw-row step-2"><div class="hiw-num">02</div><div class="hiw-card"><div class="hiw-card-head"><span class="hiw-emoji">⚙️</span><h3>Connect Your Email Server</h3></div><p>Add your SMTP credentials. Send emails from your own domain with no per-email fees.</p></div></div>
+        <div class="hiw-row step-3"><div class="hiw-num">03</div><div class="hiw-card"><div class="hiw-card-head"><span class="hiw-emoji">📋</span><h3>Paste Your Capture Script</h3></div><p>Copy one script tag from your dashboard and paste it on your website. Leads start flowing in automatically.</p></div></div>
+        <div class="hiw-row step-4"><div class="hiw-num">04</div><div class="hiw-card"><div class="hiw-card-head"><span class="hiw-emoji">📈</span><h3>Manage, Follow Up & Close</h3></div><p>Track leads, set reminders, send emails, watch open rates — all from one clean dashboard.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPCOMING -->
+<section class="upcoming" id="upcoming">
+  <div class="container">
+    <div class="section-center">
+      <span class="sec-badge badge-amber">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--amber);display:inline-block"></span>
+        Coming soon
+      </span>
+      <h2>What's on the Roadmap</h2>
+      <p>These features are actively being built. Join the waitlist to get early access when they launch.</p>
+    </div>
+    <div class="upcoming-grid">
+      <div class="upcoming-card">
+        <div class="upcoming-pill">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#f59e0b"/></svg>
+          In progress
+        </div>
+        <div class="upcoming-icon">⏰</div>
+        <h3>Scheduled Send</h3>
+        <p>Schedule emails to send at the perfect time. Reach prospects when they're most likely to open.</p>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-pill">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#f59e0b"/></svg>
+          In progress
+        </div>
+        <div class="upcoming-icon">🔁</div>
+        <h3>Smart Follow-up Reminders</h3>
+        <p>Set reminders for every lead. Never miss a touchpoint — get notified exactly when to reach out.</p>
+      </div>
+
+      <div class="upcoming-card">
+        <div class="upcoming-pill">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#f59e0b"/></svg>
+          In progress
+        </div>
+        <div class="upcoming-icon">✍️</div>
+        <h3>AI Email Writing</h3>
+        <p>Let AI draft personalized emails for each lead based on their profile and conversation history.</p>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-pill">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#f59e0b"/></svg>
+          Planned
+        </div>
+        <div class="upcoming-icon">🗺️</div>
+        <h3>AI Follow-up Plan</h3>
+        <p>AI generates a complete follow-up strategy for each lead — what to say and when to say it.</p>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-pill">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" fill="#f59e0b"/></svg>
+          Planned
+        </div>
+        <div class="upcoming-icon">🎯</div>
+        <h3>AI Lead Scoring</h3>
+        <p>AI analyzes each lead and predicts their likelihood to convert — so you focus on the right ones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-center">
+      <span class="sec-badge badge-green">Simple pricing</span>
+      <h2>Start Free. Upgrade Anytime.</h2>
+      <p>No hidden fees. No per-email charges. Cancel anytime.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="p-card free">
+        <span class="p-plan-badge free"><span style="width:5px;height:5px;border-radius:50%;background:#94a3b8;display:inline-block"></span>Free</span>
+        <p class="p-desc">Perfect for getting started</p>
+        <div class="p-price"><div class="p-price-num">Free</div><p class="p-price-note">No credit card required</p></div>
+        <a href="#waitlist" class="p-btn free">Join waitlist</a>
+        <div class="p-divider"></div>
+        <div class="p-feat-section"><div class="p-section-label">Lead Management</div><div class="p-feat-row"><span>Leads per month</span><span class="feat-chip">100</span></div><div class="p-feat-row"><span>Follow-ups per month</span><span class="feat-chip">150</span></div></div>
+        <div class="p-feat-section"><div class="p-section-label">Email</div><div class="p-feat-row"><span>Manual email</span><span class="feat-chip">300/mo</span></div><div class="p-feat-row"><span>Email open tracking</span><span class="feat-no">✕</span></div><div class="p-feat-row"><span>Email automation</span><span class="feat-no">✕</span></div></div>
+        <div class="p-feat-section"><div class="p-section-label">Capture</div><div class="p-feat-row"><span>Website lead capture</span><span class="feat-no">✕</span></div></div>
+      </div>
+      <div class="p-card growth">
+        <span class="p-plan-badge growth"><span style="width:5px;height:5px;border-radius:50%;background:var(--indigo);display:inline-block"></span>Growth</span>
+        <p class="p-desc">For freelancers scaling outreach</p>
+        <div class="p-price"><div class="p-price-row"><span class="p-price-currency">$</span><span class="p-price-num">9</span><span class="p-price-period">/mo</span></div><p class="p-price-note">Cancel anytime</p></div>
+        <a href="#waitlist" class="p-btn growth">Join waitlist</a>
+        <div class="p-divider"></div>
+        <div class="p-feat-section"><div class="p-section-label">Lead Management</div><div class="p-feat-row"><span>Leads per month</span><span class="feat-chip">3,000</span></div><div class="p-feat-row"><span>Follow-ups per month</span><span class="feat-chip">4,000</span></div></div>
+        <div class="p-feat-section"><div class="p-section-label">Email</div><div class="p-feat-row"><span>Manual email</span><span class="feat-chip">2,000/mo</span></div><div class="p-feat-row"><span>Email templates</span><span class="feat-chip">3</span></div><div class="p-feat-row"><span>Email open tracking</span><span class="feat-yes">✓</span></div><div class="p-feat-row"><span>Email automation</span><span class="feat-chip">5,000/mo</span></div></div>
+        <div class="p-feat-section"><div class="p-section-label">Capture</div><div class="p-feat-row"><span>Website lead capture</span><span class="feat-chip">1 site</span></div></div>
+      </div>
+      <div class="p-card premium">
+        <div class="popular-tag">MOST POPULAR</div>
+        <span class="p-plan-badge premium"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span>Premium</span>
+        <p class="p-desc">Full power for growing teams</p>
+        <div class="p-price"><div class="p-price-row"><span class="p-price-currency">$</span><span class="p-price-num green">19</span><span class="p-price-period">/mo</span></div><p class="p-price-note">Cancel anytime</p></div>
+        <a href="#waitlist" class="p-btn premium">Join waitlist</a>
+        <div class="p-divider"></div>
+        <div class="p-feat-section"><div class="p-section-label">Lead Management</div><div class="p-feat-row"><span>Leads per month</span><span class="feat-chip">10,000</span></div><div class="p-feat-row"><span>Follow-ups per month</span><span class="feat-chip">15,000</span></div></div>
+        <div class="p-feat-section"><div class="p-section-label">Email</div><div class="p-feat-row"><span>Manual email</span><span class="feat-chip">15,000/mo</span></div><div class="p-feat-row"><span>Email templates</span><span class="feat-chip">5</span></div><div class="p-feat-row"><span>Email open tracking</span><span class="feat-yes">✓</span></div><div class="p-feat-row"><span>Email automation</span><span class="feat-chip">20,000/mo</span></div></div>
+        <div class="p-feat-section"><div class="p-section-label">Capture</div><div class="p-feat-row"><span>Website lead capture</span><span class="feat-chip">3 sites</span></div></div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.75rem;color:var(--zinc-400);margin-top:20px">All plans include a 14-day free trial · No credit card required to start</p>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist" id="waitlist">
+  <div style="max-width:560px;margin:0 auto;padding:0 24px">
+    <div class="early-badge"><span style="width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block;animation:pdot 2s infinite"></span>Limited early access</div>
+    <h2>Stop Losing Leads.<br/>Join the Waitlist.</h2>
+    <p>Early users get <strong style="color:#34d399">50% off</strong> for the first 3 months. Be the first to know when we launch.</p>
+    <div class="waitlist-form-wrap">
+      <iframe
+        data-tally-src="https://tally.so/embed/BzbqxA?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="120"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="LeadLeap Waitlist"
+        style="border:none;width:100%"
+      ></iframe>
+    </div>
+    <p class="waitlist-note">No spam. Unsubscribe anytime. Your email stays private.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a href="/" class="footer-logo">
+          <div class="footer-logo-icon"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 12L7 6l3 3 3-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="13" cy="4" r="1.5" fill="white"/></svg></div>
+          <span class="footer-logo-text">Lead<span>Leap</span></span>
+        </a>
+        <p class="footer-tagline">Simple CRM and lead capture platform for freelancers and small teams.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#upcoming">Roadmap</a>
+        <a href="#waitlist">Early access</a>
+        <a href="/privacy-policy">Privacy</a>
+        <a href="/terms-of-service">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 LeadLeap. All rights reserved.</p>
+      <p class="footer-copy">Made by Orviton</p>
+    </div>
+  </div>
+</footer>
+
+<script async src="https://tally.so/widgets/embed.js"></script>
+</body>
+</html>
